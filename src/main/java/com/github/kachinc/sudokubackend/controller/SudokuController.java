@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.kachinc.sudoku.Constant;
 import com.github.kachinc.sudoku.SudokuBoard;
 import com.github.kachinc.sudoku.SudokuGenerator;
 import com.github.kachinc.sudoku.SudokuValidator;
@@ -33,6 +34,9 @@ public class SudokuController {
 	
 	@GetMapping("validate")
     @ResponseBody boolean validate(@RequestParam String str) {
+		if(str.length() != Constant.NUMBER_OF_CELLS) {
+			return false;
+		}
 		SudokuBoard board = new SudokuBoard();
 		board.fillByString(str);
         return validator.validate(board);
