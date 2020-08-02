@@ -31,7 +31,7 @@ public class SudokuController {
 	String generateSolution() {
 		String res = generator.generateSolution().getString();
 		log.info("generateSolution {}", res);
-		return res;
+		return "_" + res;
 	}
 
 	@GetMapping("generateByDiff")
@@ -39,7 +39,7 @@ public class SudokuController {
 	String generateByDiff(@RequestParam double diff) {
 		String res = generator.generate(diff).getString();
 		log.info("generateByDiff {} {}", diff, res);
-		return res;
+		return "_" + res;
 	}
 
 	@GetMapping("validate")
