@@ -51,7 +51,8 @@ const InGame = {
 			diff: this.$route.params.diff,
 			board: [],
 			boardDisabledFlag:[],
-			pickCellValueCellIndex:0
+			pickCellValueCellIndex:0,
+			loading:false
 		}
 	},
 	mounted (){
@@ -59,12 +60,15 @@ const InGame = {
 	},
 	methods: {
 		getNewGame(){
+			this.loading = true;
 			axios.get('/api/generateByDiff',{params:{diff:this.diff}}).then(res => {
 				let str = res.data.substr(1);
 			    this.setBoardByStr(str);
+			    this.loading = false;
 			});
 		},
 		validate(){		
+			this.loading = true;
 			let str = this.getStrFromBoard();
 			axios.get('/api/validate',{params:{str:str}}).then(res => {
 				if(res.data == true){
@@ -80,6 +84,7 @@ const InGame = {
 				          variant: 'danger'
 				    })
 				}
+				this.loading = false;
 			});
 		},
 		cellDisabled(i,j){
@@ -110,26 +115,28 @@ const InGame = {
 	},
 	template: `
 	<div>
-		<p>
-		<h3>Difficulty of this game: {{diff}}</h3>
-		<b-alert show variant="danger">The problem generated is not correct (there are repeats in each of the 9 subarea). Need revision.</b-alert>
-		</p>
-		<div class="board m-3">
-			
-			<table>
-				<tr  v-for="(n,i) in 9">
-					<td  v-for="(m,j) in 9" style="text-align:center">
-						<span v-if="cellDisabled(i,j)">{{board[j + 9*i]}}</span>
-						<b-btn @click="pickCellValue(i,j)" variant="secondary" class="boardbtn" v-if="!cellDisabled(i,j)">{{board[j + 9*i]}}</b-btn>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<div>
-			<b-btn variant="success" @click="validate()">Validate</b-btn>
-			<b-btn variant="primary" @click="getNewGame()">New Game</b-btn>
-			<router-link to="/newgame"><b-btn variant="danger">Back</b-btn></router-link>
-		</div>
+		<b-overlay :show="loading" rounded="sm">
+			<p>
+			<h3>Difficulty of this game: {{diff}}</h3>
+			<b-alert show variant="danger">The problem generated is not correct (there are repeats in each of the 9 subarea). Need revision.</b-alert>
+			</p>
+			<div class="board m-3">
+				
+				<table>
+					<tr  v-for="(n,i) in 9">
+						<td  v-for="(m,j) in 9" style="text-align:center">
+							<span v-if="cellDisabled(i,j)">{{board[j + 9*i]}}</span>
+							<b-btn @click="pickCellValue(i,j)" variant="secondary" class="boardbtn" v-if="!cellDisabled(i,j)">{{board[j + 9*i]}}</b-btn>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div>
+				<b-btn variant="success" @click="validate()">Validate</b-btn>
+				<b-btn variant="primary" @click="getNewGame()">New Game</b-btn>
+				<router-link to="/newgame"><b-btn variant="danger">Back</b-btn></router-link>
+			</div>
+		</b-overlay>
 		
 		<b-modal id="pick-cell-modal" hide-footer hide-header>
 			<b-button-group vertical >
