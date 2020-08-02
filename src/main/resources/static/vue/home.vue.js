@@ -1,9 +1,9 @@
 const Start = {
 	template: `
 	<div>
-		<p>
+		
 		<router-link to="/newgame"><b-btn>Start a new game</b-btn></router-link>
-		</p>
+		
 	</div>
 	`
 			
@@ -18,10 +18,12 @@ const NewGame = {
 	},
 	computed: {
 		diffMsg(){
-			if(this.diff >= (1-(17/81))){
-				return 'Less than 17 clues'
+			let clues = Math.round(81 - 81 * this.diff);
+			let msg =  clues + ' clues.';
+			if(clues < 17) {
+				msg += ' Less than 17 clues.'
 			}
-			return ''
+			return msg;
 		}
 	},
 	methods: {
@@ -118,10 +120,12 @@ const InGame = {
 		<b-overlay :show="loading" rounded="sm">
 			<p>
 			<h3>Difficulty of this game: {{diff}}</h3>
-			<b-alert show variant="danger">The problem generated is not correct (there are repeats in each of the 9 subarea). Need revision.</b-alert>
+			<b-alert show variant="danger">The problem generated is incorrect (repeats in the subareas)</b-alert>
 			</p>
-			<div class="board m-3">
-				
+			
+			
+			<div class="board my-2">
+				<b-aspect aspect="1">
 				<table>
 					<tr  v-for="(n,i) in 9">
 						<td  v-for="(m,j) in 9" style="text-align:center">
@@ -130,7 +134,9 @@ const InGame = {
 						</td>
 					</tr>
 				</table>
+				</b-aspect>
 			</div>
+			
 			<div>
 				<b-btn variant="success" @click="validate()">Validate</b-btn>
 				<b-btn variant="primary" @click="getNewGame()">New Game</b-btn>
@@ -138,7 +144,7 @@ const InGame = {
 			</div>
 		</b-overlay>
 		
-		<b-modal id="pick-cell-modal" hide-footer hide-header>
+		<b-modal id="pick-cell-modal" hide-footer hide-header size="sm">
 			<b-button-group vertical >
 			    <b-button-group>
 			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('1')">1</b-btn>

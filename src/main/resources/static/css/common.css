@@ -1,16 +1,23 @@
 .board {
 	background-image: url("../img/board.jpg");
-	width: 600px;
-	height: 600px;
-	font-size: 30px;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	width: 100%;
+	max-width: 600px;
+	font-size: 1.5rem;
+}
+
+.board table {
+	width: 100%;
+	height: 100%;
 }
 
 .board tr {
-	height: 67px;
+	height: calc(100%/ 9);
 }
 
 .board td {
-	width: 67px;
+	width: calc(100%/ 9);
 }
 
 .alertMsg {
@@ -19,22 +26,20 @@
 }
 
 .boardbtn {
-	width: 50px;
-	height: 50px;
-	font-size: 1.5rem;
-}
-
-.modal-dialog {
-	max-width: 100%;
-	width: auto !important;
-	display: inline-block;
-}
-
-.modal {
-	text-align: left;
-	padding: 150px
+	width: 70%;
+	height: 70%;
+	
 }
 
 .boardnumpadkey {
-	font-size: 5rem;
+	font-size: 4rem;
 }
+
+.modal-content {
+  position: relative;
+  margin: auto;
+  padding: 0;
+  width: auto;
+  display: table;
+}
+
