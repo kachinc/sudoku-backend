@@ -1,7 +1,10 @@
 # sudoku-backend
 API for sudoku game
 
-## Demo
+## Demo (Web)
+https://kachinc-sudoku-backend.herokuapp.com
+
+## Demo (API)
 
 ### Generate a new problem with 40% difficulty
 https://kachinc-sudoku-backend.herokuapp.com/api/generateByDiff?diff=0.4
