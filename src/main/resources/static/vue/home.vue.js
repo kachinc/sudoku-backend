@@ -58,9 +58,17 @@ const InGame = {
 			let str = this.getStrFromBoard();
 			axios.get('/api/validate',{params:{str:str}}).then(res => {
 				if(res.data == true){
-					console.log('true');
+					this.$bvToast.toast('Congrats! The board is valid.', {
+						  toaster: 'b-toaster-top-left',
+				          title: 'Validation Result',
+				          variant: 'success'
+				    })
 				} else {
-					console.log('false');
+					this.$bvToast.toast('Oops! The board is invalid.', {
+						  toaster: 'b-toaster-top-left',
+				          title: 'Validation Result',
+				          variant: 'danger'
+				    })
 				}
 			});
 		},
@@ -85,16 +93,16 @@ const InGame = {
 	<div>
 		<p>
 		<h3>Difficulty of this game: {{diff}}</h3>
+		<b-alert show variant="danger">The problem generated is not correct (there are repeats in each of the 9 subarea). Need revision.</b-alert>
 		</p>
 		<div>
-			<table class="table table-sm table-bordered">
+			<table class="m-2 table table-bordered ">
 				<tr v-for="(n,i) in 9">
 					<td v-for="(m,j) in 9">
 						<b-form-input v-model="board[j + 9*i]" :disabled="cellDisabled(i,j)" :state="checkCellState(i,j)"></b-form-input>
 					</td>
 				</tr>
 			</table>
-			
 		</div>
 		<div>
 			<b-btn variant="success" @click="validate()">Validate</b-btn>
