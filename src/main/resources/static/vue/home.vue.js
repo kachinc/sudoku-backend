@@ -61,32 +61,49 @@ const InGame = {
 		this.getNewGame();
 	},
 	methods: {
+		showXhrError(){
+			this.$bvToast.toast('Server error occurred.', {
+				  toaster: 'b-toaster-top-left',
+		          title: 'Oops!',
+		          variant: 'danger'
+		    });
+		},
 		getNewGame(){
+			let self = this;
 			this.loading = true;
 			axios.get('/api/generateByDiff',{params:{diff:this.diff}}).then(res => {
 				let str = res.data.substr(1);
-			    this.setBoardByStr(str);
-			    this.loading = false;
+				self.setBoardByStr(str);
+			}).catch(err => {
+			    console.log(err);
+			    self.showXhrError();
+			}).then(() => {
+				self.loading = false;
 			});
 		},
 		validate(){		
-			this.loading = true;
+			let self = this;
+			self.loading = true;
 			let str = this.getStrFromBoard();
 			axios.get('/api/validate',{params:{str:str}}).then(res => {
 				if(res.data == true){
-					this.$bvToast.toast('Congrats! The board is valid.', {
+					self.$bvToast.toast('Congrats! The board is valid.', {
 						  toaster: 'b-toaster-top-left',
 				          title: 'Validation Result',
 				          variant: 'success'
 				    })
 				} else {
-					this.$bvToast.toast('Oops! The board is invalid.', {
+					self.$bvToast.toast('Oops! The board is invalid.', {
 						  toaster: 'b-toaster-top-left',
 				          title: 'Validation Result',
 				          variant: 'danger'
 				    })
 				}
-				this.loading = false;
+			}).catch(err => {
+			    console.log(err);
+			    self.showXhrError();
+			}).then(() => {
+				self.loading = false;
 			});
 		},
 		cellDisabled(i,j){
