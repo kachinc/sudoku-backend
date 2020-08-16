@@ -36,13 +36,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
-			<groupId>com.github.kachinc</groupId>
-			<artifactId>sudoku</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/sudoku-core.jar</systemPath>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

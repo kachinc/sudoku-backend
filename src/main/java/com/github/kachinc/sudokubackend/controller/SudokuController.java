@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.kachinc.sudoku.Constant;
-import com.github.kachinc.sudoku.SudokuBoard;
-import com.github.kachinc.sudoku.SudokuGenerator;
-import com.github.kachinc.sudoku.SudokuValidator;
+import com.github.kachinc.sudokubackend.core.SudokuConstant;
+import com.github.kachinc.sudokubackend.core.SudokuBoard;
+import com.github.kachinc.sudokubackend.core.SudokuGenerator;
+import com.github.kachinc.sudokubackend.core.SudokuValidator;
+
+
 
 @RestController
 @RequestMapping("api")
@@ -46,7 +48,7 @@ public class SudokuController {
 	@ResponseBody
 	boolean validate(@RequestParam String str) {
 		boolean res;
-		if (str.length() != Constant.NUMBER_OF_CELLS) {
+		if (str.length() != SudokuConstant.NUMBER_OF_CELLS) {
 			res =  false;
 		} else {
 			SudokuBoard board = new SudokuBoard();
