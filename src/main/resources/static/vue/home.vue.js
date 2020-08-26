@@ -1,13 +1,47 @@
 const Start = {
 	template: `
 	<div>
-		
-		<router-link to="/newgame"><b-btn>Start a new game</b-btn></router-link>
-		
+	
+		<b-jumbotron header="Welcome to this Sudoku Game">
+			<br>
+			<router-link to="/newgame"><b-btn size="lg" variant="dark">Start a new game</b-btn></router-link>
+			<router-link to="/spec"><b-btn size="lg" variant="dark">See technologies used</b-btn></router-link>
+		</b-jumbotron>
+
 	</div>
 	`
 			
 }
+
+const Spec = {
+		template: `
+		<div>
+			<h1>Technologies Used</h1>
+			
+			<br>
+			
+			<h3>Back-end</h3>
+			<p>Spring Boot, Spring MVC</p>
+			
+			<br>
+			
+			<h3>Front-end</h3>
+			<p>Vue, Vue Router, Axios, BootstrapVue, Google Fonts</p>
+			
+			<br>
+			
+			<h3>Source Code</h3>
+			<p><a href="https://github.com/kachinc/sudoku-backend">https://github.com/kachinc/sudoku-backend</a></p>
+			
+			<br>
+			
+			<router-link to="/"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
+			
+
+		</div>
+		`
+				
+	}
 
 
 const NewGame = {
@@ -40,8 +74,8 @@ const NewGame = {
 			<div class="alertMsg">{{diffMsg}}</div>
 		</div>
 		<div>
-			<b-btn variant="success" @click="createNewGame()">Create New Game</b-btn>
-			<router-link to="/"><b-btn variant="danger">Back</b-btn></router-link>
+			<b-btn size="lg" variant="success" @click="createNewGame()">Create New Game</b-btn>
+			<router-link to="/"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
 		</div>
 	</div>
 	`		
@@ -137,14 +171,14 @@ const InGame = {
 		<b-overlay :show="loading" rounded="sm">
 			<p>
 			<h3>Difficulty of this game: {{diff}}</h3>
-			<b-alert show variant="danger">The problem generated is incorrect (repeats in the subareas)</b-alert>
+			
 			</p>
 			
 			
 			<div class="board my-2">
 				<b-aspect aspect="1">
 				<table>
-					<tr  v-for="(n,i) in 9">
+					<tr v-for="(n,i) in 9">
 						<td  v-for="(m,j) in 9" style="text-align:center">
 							<span v-if="cellDisabled(i,j)">{{board[j + 9*i]}}</span>
 							<b-btn @click="pickCellValue(i,j)" variant="secondary" class="boardbtn" v-if="!cellDisabled(i,j)">{{board[j + 9*i]}}</b-btn>
@@ -155,9 +189,9 @@ const InGame = {
 			</div>
 			
 			<div>
-				<b-btn variant="success" @click="validate()">Validate</b-btn>
-				<b-btn variant="primary" @click="getNewGame()">New Game</b-btn>
-				<router-link to="/newgame"><b-btn variant="danger">Back</b-btn></router-link>
+				<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
+				<b-btn variant="primary" size="lg" @click="getNewGame()">New Game</b-btn>
+				<router-link to="/newgame"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
 			</div>
 		</b-overlay>
 		
@@ -191,6 +225,7 @@ const InGame = {
 
 const routes = [
   { path: '/', component: Start },
+  { path: '/spec', component: Spec },
   { path: '/newgame', component: NewGame },
   { name: 'ingame', path: '/ingame/:diff', component: InGame }
 ]

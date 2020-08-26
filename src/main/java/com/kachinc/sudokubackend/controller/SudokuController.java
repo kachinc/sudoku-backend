@@ -14,8 +14,9 @@ import com.kachinc.sudokubackend.core.SudokuConstant;
 import com.kachinc.sudokubackend.core.SudokuGenerator;
 import com.kachinc.sudokubackend.core.SudokuValidator;
 
-
-
+/**
+ * Backend controller
+ */
 @RestController
 @RequestMapping("api")
 public class SudokuController {
@@ -28,6 +29,11 @@ public class SudokuController {
 	@Autowired
 	private SudokuValidator validator;
 
+	/**
+	 * Generate a solved board. 
+	 * 
+	 * @return generated solution (format: "_" followed by 81 numbers)
+	 */
 	@GetMapping("generateSolution")
 	@ResponseBody
 	String generateSolution() {
@@ -36,6 +42,13 @@ public class SudokuController {
 		return "_" + res;
 	}
 
+	/**
+	 * Generate by difficultly between 0 and 1. 0 being a solution while 1 being an
+	 * empty board.
+	 * 
+	 * @param diff (between 0 and 1)
+	 * @return generated problem (format: "_" followed by 81 numbers , empty cells are denoted by "-")
+	 */
 	@GetMapping("generateByDiff")
 	@ResponseBody
 	String generateByDiff(@RequestParam double diff) {
@@ -44,12 +57,17 @@ public class SudokuController {
 		return "_" + res;
 	}
 
+	/**
+	 * Validate a board
+	 * @param str (format: 81 characters string)
+	 * @return true or false
+	 */
 	@GetMapping("validate")
 	@ResponseBody
 	boolean validate(@RequestParam String str) {
 		boolean res;
 		if (str.length() != SudokuConstant.NUMBER_OF_CELLS) {
-			res =  false;
+			res = false;
 		} else {
 			SudokuBoard board = new SudokuBoard();
 			board.fillByString(str);

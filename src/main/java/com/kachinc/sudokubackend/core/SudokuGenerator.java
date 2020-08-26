@@ -1,8 +1,9 @@
 package com.kachinc.sudokubackend.core;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,15 +18,19 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SudokuGenerator {
-
-	private static Set<Integer> randomIntSet;
-
-	public SudokuGenerator() {
-		super();
-		randomIntSet = new HashSet<>();
-		while (randomIntSet.size() < 9) {
-			randomIntSet.add(randomInt(SudokuConstant.MIN_CELL_VAL, SudokuConstant.MAX_CELL_VAL));
+	
+	/**
+	 * Get a random permutation of 1..9
+	 * @return
+	 */
+	private List<Integer> getRandomIntList(){
+		List<Integer> randomIntList = new ArrayList<>();
+		for (int i = 1; i <= 9; i++) {
+			randomIntList.add(i);
 		}
+		Collections.shuffle(randomIntList);
+		return randomIntList;
+		
 	}
 
 	/**
@@ -43,45 +48,65 @@ public class SudokuGenerator {
 		return board;
 	}
 
+	/**
+	 * Generate a solved board (solution), initial caller of generateFull
+	 * @return
+	 */
 	public SudokuBoard generateSolution() {
 
 		SudokuBoard board = new SudokuBoard();
 
-		generateFull(board, 0);
+		while(generateFull(board, 0) == false);
 
 		return board;
 	}
 
 	/**
-	 * Generate a sudoku board with all cells filled, i.e. a solution
+	 * Generate a sudoku board with all cells filled, i.e. a solution, using backtracking algorithm
+	 * 
+	 * @param posPtr position pointer for a cell, from 0 to 80
 	 * 
 	 * @return
 	 */
-	private void generateFull(SudokuBoard board, int posPtr) {
+	private boolean generateFull(SudokuBoard board, int posPtr) {
 
-		System.out.println(board.toString());
-
+		// Get (row,col) representation from posPtr
 		int rowPtr = SudokuBoard.posToRowAndCol(posPtr).getLeft();
 		int colPtr = SudokuBoard.posToRowAndCol(posPtr).getRight();
 
-		// base case
+		// Base case
 		if (board.getNoOfEmptyCells() == 0) {
-			return;
+			return true;
 		}
 
-		// set value
-		for (Integer val : randomIntSet) {
+		// Trials to set a cell value
+		// Given a random permutation
+		for (Integer val : getRandomIntList()) {
 
+			// Set the current value to the cell
 			board.setCell(rowPtr, colPtr, val);
 
-			// branch
+			// Validate the recently set value
+			// If the current cell is valid, we can proceed to consider the cells ahead
 			if (SudokuValidator.isCellValueValid(board, rowPtr, colPtr)) {
-				generateFull(board, posPtr + 1);
+				System.out.println("valid");
+				// if the next cell and the cells after are valid
+				if(generateFull(board, posPtr + 1)) {
+					return true;
+				} else {
+					// try other possible values for the current cell 
+					continue;
+				}
 			} else {
+				// if the current cell is invalid, try other possible values
 				board.setCell(rowPtr, colPtr, null);
-				generateFull(board, posPtr);
+				System.out.println("invalid");
+				continue;
 			}
 		}
+		
+		// if all 1 to 9 don't work, return false to backtrack
+		return false;
 
 	}
 

@@ -3,15 +3,28 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Framework CSS -->
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
 	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
 	crossorigin="anonymous">
 <link type="text/css" rel="stylesheet"
 	href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.css" />
+
+<!-- Cloud Fonts -->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Anonymous+Pro">
+
+<!-- Custom CSS -->
 <link rel="stylesheet" type="text/css" href="css/common.css">
+
+<!--  Framework JS -->
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
 <title>Sudoku Game</title>
 </head>
 
@@ -21,13 +34,11 @@
 		<span class="navbar-brand">Sudoku Game</span>
 	</nav>
 
-	<b-container fluid id="app" class="p-2">
-
-		<router-view></router-view>
+	<b-container fluid id="app" class="p-2"> <router-view></router-view>
 
 	</b-container>
 
-
+	<!-- Framework JS -->
 	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
 		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
 		crossorigin="anonymous"></script>
@@ -43,7 +54,9 @@
 		src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.min.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
+	<!-- Main Vue Program -->
 	<script src="vue/home.vue.js" defer></script>
+	
 </body>
 </html>
 

@@ -14,3 +14,7 @@ http://sudoku.kachinc.com/api/generateSolution
 
 ### Validate a board
 http://sudoku.kachinc.com/api/validate?str=673285149921438765347591826854629317419762538738916452562374981196853274285147693
+
+## Algorithm
+Random Permutation with Backtrack
+Reference: https://github.com/a11n/sudoku

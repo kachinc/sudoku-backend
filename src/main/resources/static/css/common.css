@@ -1,10 +1,16 @@
+body{
+	font-family:'Raleway', sans-serif;
+	font-size: 1.5rem;
+}
+
 .board {
 	background-image: url("../img/board.jpg");
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	width: 100%;
 	max-width: 600px;
-	font-size: 1.5rem;
+	font-size: 2rem;
+	font-family: 'Anonymous Pro'
 }
 
 .board table {
@@ -33,6 +39,7 @@
 
 .boardnumpadkey {
 	font-size: 4rem;
+	font-family: 'Anonymous Pro'
 }
 
 .modal-content {

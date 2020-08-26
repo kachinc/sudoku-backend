@@ -14,6 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SudokuValidator {
 
+	/**
+	 * Validate a board
+	 * @param board
+	 * @return true/false
+	 */
 	public boolean validate(SudokuBoard board) {
 
 		for (int pos = 0; pos < SudokuConstant.NUMBER_OF_CELLS; pos++) {
@@ -29,6 +34,13 @@ public class SudokuValidator {
 		return true;
 	}
 
+	/**
+	 * Validate a cell by its value, uniqueness by row, column and 3x3 subarea
+	 * @param board
+	 * @param row (0..8)
+	 * @param col (0..8)
+	 * @return true/false
+	 */
 	public static boolean isCellValueValid(SudokuBoard board, int row, int col) {
 		
 		if (isCellFormatInvalid(board.getCell(row, col))) {
