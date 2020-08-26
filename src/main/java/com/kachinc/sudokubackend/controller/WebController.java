@@ -1,4 +1,4 @@
-package com.github.kachinc.sudokubackend.controller;
+package com.kachinc.sudokubackend.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

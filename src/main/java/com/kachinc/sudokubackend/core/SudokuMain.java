@@ -1,4 +1,4 @@
-package com.github.kachinc.sudokubackend.core;
+package com.kachinc.sudokubackend.core;
 
 public class SudokuMain {
 

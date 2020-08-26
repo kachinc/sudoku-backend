@@ -1,4 +1,4 @@
-package com.github.kachinc.sudokubackend;
+package com.kachinc.sudokubackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

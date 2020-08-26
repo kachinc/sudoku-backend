@@ -1,4 +1,6 @@
-package com.github.kachinc.sudokubackend.core;
+package com.kachinc.sudokubackend.core;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Representation of a Sudoku board of 9x9
@@ -60,6 +62,15 @@ public class SudokuBoard {
 	}
 
 	/**
+	 * Convert position (0, 1, 2...80) to row and col
+	 * @param pos
+	 * @return left: row, right: col
+	 */
+	public static Pair<Integer, Integer> posToRowAndCol(int pos) {
+		return Pair.of(pos / SudokuConstant.CELLS_PER_ROW, pos % SudokuConstant.CELLS_PER_ROW);
+	}
+
+	/**
 	 * In sudoku format of 9 3x3 grids
 	 */
 	@Override
@@ -80,6 +91,18 @@ public class SudokuBoard {
 			}
 		}
 		return sb.toString();
+	}
+
+	public int getNoOfEmptyCells() {
+		int emptyCellCount = 0;
+		for (int i = 0; i < SudokuConstant.CELLS_PER_ROW; i++) {
+			for (int j = 0; j < SudokuConstant.CELLS_PER_COL; j++) {
+				if (board[i][j] == null) {
+					emptyCellCount++;
+				}
+			}
+		}
+		return emptyCellCount;
 	}
 
 }

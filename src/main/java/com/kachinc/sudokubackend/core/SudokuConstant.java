@@ -1,4 +1,4 @@
-package com.github.kachinc.sudokubackend.core;
+package com.kachinc.sudokubackend.core;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.kachinc.sudokubackend.core;
+package com.kachinc.sudokubackend.core;
 
 /**
  * Class for specifying a subarea <br>
@@ -58,6 +58,19 @@ public class Subarea {
 
 	public void setjTo(int jTo) {
 		this.jTo = jTo;
+	}
+	
+	public static boolean cellInSubarea(Subarea subarea, int row, int col) {
+		return (subarea.iFrom <= row && row <= subarea.iTo) && (subarea.jFrom <= col && col <= subarea.jTo);
+	}
+	
+	public static Subarea getSubareaByCell(int row, int col) {
+		for(Subarea s : SudokuConstant.SUBAREA_LIST){
+			if(cellInSubarea(s, row, col)) {
+				return s;
+			}
+		}
+		return null;
 	}
 
 }

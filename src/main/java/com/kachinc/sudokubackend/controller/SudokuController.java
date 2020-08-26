@@ -1,4 +1,4 @@
-package com.github.kachinc.sudokubackend.controller;
+package com.kachinc.sudokubackend.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.kachinc.sudokubackend.core.SudokuConstant;
-import com.github.kachinc.sudokubackend.core.SudokuBoard;
-import com.github.kachinc.sudokubackend.core.SudokuGenerator;
-import com.github.kachinc.sudokubackend.core.SudokuValidator;
+import com.kachinc.sudokubackend.core.SudokuBoard;
+import com.kachinc.sudokubackend.core.SudokuConstant;
+import com.kachinc.sudokubackend.core.SudokuGenerator;
+import com.kachinc.sudokubackend.core.SudokuValidator;
 
 
 

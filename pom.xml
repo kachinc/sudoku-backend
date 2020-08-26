@@ -9,7 +9,7 @@
 		<version>2.3.2.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.github.kachinc</groupId>
+	<groupId>com.kachinc</groupId>
 	<artifactId>sudoku-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sudoku-backend</name>
@@ -39,8 +39,7 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.11</version>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
