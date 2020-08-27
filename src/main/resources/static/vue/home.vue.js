@@ -3,6 +3,7 @@ const Start = {
 	<div>
 	
 		<b-jumbotron header="Welcome to this Sudoku Game" lead="by Johnson">
+			<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>
 			<br>
 			<router-link to="/newgame"><b-btn size="lg" variant="dark">Start a new game</b-btn></router-link>
 			<router-link to="/spec"><b-btn size="lg" variant="dark">See technologies used</b-btn></router-link>
@@ -21,7 +22,7 @@ const Spec = {
 			<br>
 			
 			<h3>Back-end</h3>
-			<p>Spring Boot, Spring MVC</p>
+			<p>Spring Boot, Spring MVC, iText PDF</p>
 			
 			<br>
 			
@@ -85,6 +86,7 @@ const InGame = {
 	data: function () {
 		return {
 			diff: this.$route.params.diff,
+			boardStrOriginal:'',
 			board: [],
 			boardDisabledFlag:[],
 			pickCellValueCellIndex:0,
@@ -126,6 +128,7 @@ const InGame = {
 			axios.get('/api/generateByDiff',{params:{diff:this.diff}}).then(res => {
 				
 				let str = res.data.substr(1);
+				this.boardStrOriginal = str;
 				self.setBoardByStr(str);
 				
 				// reset timer
@@ -222,6 +225,7 @@ const InGame = {
 				<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
 				<b-btn variant="primary" size="lg" @click="getNewGameBtn()">New Game</b-btn>
 				<b-btn size="lg" variant="danger" @click="backBtn()">Back</b-btn>
+				<a :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff " download><b-btn variant="dark" size="lg">Download PDF</b-btn></a>
 			</div>
 		</b-overlay>
 		

@@ -1,5 +1,10 @@
 package com.kachinc.sudokubackend.controller;
 
+import java.io.ByteArrayOutputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.pdfbox.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +18,7 @@ import com.kachinc.sudokubackend.core.SudokuBoard;
 import com.kachinc.sudokubackend.core.SudokuConstant;
 import com.kachinc.sudokubackend.core.SudokuGenerator;
 import com.kachinc.sudokubackend.core.SudokuValidator;
+import com.kachinc.sudokubackend.service.PdfService;
 
 /**
  * Backend controller
@@ -28,6 +34,9 @@ public class SudokuController {
 
 	@Autowired
 	private SudokuValidator validator;
+	
+	@Autowired
+	private PdfService pdfService;
 
 	/**
 	 * Generate a solved board. 
@@ -75,6 +84,15 @@ public class SudokuController {
 		}
 		log.info("validate {} {}", str, res);
 		return res;
+	}
+	
+	@GetMapping("sudokuPdf")
+	void downloadPdf(@RequestParam String str, @RequestParam double difficulty, HttpServletResponse response) throws Exception {
+		SudokuBoard board = new SudokuBoard();
+		board.fillByString(str);
+		ByteArrayOutputStream outputStream = pdfService.generatePdf(board, difficulty);
+		outputStream.writeTo(response.getOutputStream());
+		response.setContentType("application/pdf");		
 	}
 
 }

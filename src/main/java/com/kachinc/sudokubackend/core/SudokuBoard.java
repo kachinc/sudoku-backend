@@ -56,7 +56,10 @@ public class SudokuBoard {
 	public void fillByString(String str) {
 		for (int i = 0; i < SudokuConstant.CELLS_PER_ROW; i++) {
 			for (int j = 0; j < SudokuConstant.CELLS_PER_COL; j++) {
-				setCell(i, j, Character.getNumericValue(str.charAt(j + i * SudokuConstant.CELLS_PER_ROW)));
+				char cellChar = str.charAt(j + i * SudokuConstant.CELLS_PER_ROW);
+				if(cellChar != '-'){
+					setCell(i, j, Character.getNumericValue(cellChar));	
+				}
 			}
 		}
 	}
