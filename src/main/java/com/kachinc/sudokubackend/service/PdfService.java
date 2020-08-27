@@ -1,7 +1,6 @@
 package com.kachinc.sudokubackend.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
