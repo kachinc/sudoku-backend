@@ -2,7 +2,7 @@ const Start = {
 	template: `
 	<div>
 	
-		<b-jumbotron header="Welcome to this Sudoku Game">
+		<b-jumbotron header="Welcome to this Sudoku Game" lead="by Johnson">
 			<br>
 			<router-link to="/newgame"><b-btn size="lg" variant="dark">Start a new game</b-btn></router-link>
 			<router-link to="/spec"><b-btn size="lg" variant="dark">See technologies used</b-btn></router-link>
@@ -26,7 +26,7 @@ const Spec = {
 			<br>
 			
 			<h3>Front-end</h3>
-			<p>Vue, Vue Router, Axios, BootstrapVue, Google Fonts</p>
+			<p>Vue, Vue Router, Axios, BootstrapVue, Google Fonts, Moment.js</p>
 			
 			<br>
 			
@@ -88,11 +88,15 @@ const InGame = {
 			board: [],
 			boardDisabledFlag:[],
 			pickCellValueCellIndex:0,
-			loading:false
+			loading:false,
+			timerIntervalId:{},
+			gameStartTime:{},
+			elaspedTimeStr:''
 		}
 	},
 	mounted (){
 		this.getNewGame();
+		console.log('mounted')		
 	},
 	methods: {
 		showXhrError(){
@@ -106,8 +110,18 @@ const InGame = {
 			let self = this;
 			this.loading = true;
 			axios.get('/api/generateByDiff',{params:{diff:this.diff}}).then(res => {
+				
 				let str = res.data.substr(1);
 				self.setBoardByStr(str);
+				
+				// reset timer
+				clearInterval(this.timerIntervalId);
+				this.elaspedTimeStr = '00:00';
+				this.gameStartTime = moment();
+				this.timerIntervalId = setInterval(()=>{
+					this.elaspedTimeStr = moment().subtract(this.gameStartTime).format('mm:ss');
+				}, 1000);
+				
 			}).catch(err => {
 			    console.log(err);
 			    self.showXhrError();
@@ -125,7 +139,8 @@ const InGame = {
 						  toaster: 'b-toaster-top-left',
 				          title: 'Validation Result',
 				          variant: 'success'
-				    })
+				    });
+					clearInterval(this.timerIntervalId); // stop timer
 				} else {
 					self.$bvToast.toast('Oops! The board is invalid.', {
 						  toaster: 'b-toaster-top-left',
@@ -171,6 +186,7 @@ const InGame = {
 		<b-overlay :show="loading" rounded="sm">
 			<p>
 			<h3>Difficulty of this game: {{diff}}</h3>
+			<h3>Elapsed Time: {{elaspedTimeStr}}</h3>
 			
 			</p>
 			
