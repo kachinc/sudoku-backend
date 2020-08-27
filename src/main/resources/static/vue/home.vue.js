@@ -106,6 +106,20 @@ const InGame = {
 		          variant: 'danger'
 		    });
 		},
+		getNewGameBtn(){
+			this.$bvModal.msgBoxConfirm('Do you want to play a new game? Your progress will be lost.').then(value=>{
+				if(value === true){
+					this.getNewGame();
+				}
+			});
+		},
+		backBtn(){
+			this.$bvModal.msgBoxConfirm('Do you want to go to the previous page? Your progress will be lost.').then(value=>{
+				if(value === true){
+					this.$router.push('/newgame');
+				}
+			});
+		},
 		getNewGame(){
 			let self = this;
 			this.loading = true;
@@ -206,8 +220,8 @@ const InGame = {
 			
 			<div>
 				<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
-				<b-btn variant="primary" size="lg" @click="getNewGame()">New Game</b-btn>
-				<router-link to="/newgame"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
+				<b-btn variant="primary" size="lg" @click="getNewGameBtn()">New Game</b-btn>
+				<b-btn size="lg" variant="danger" @click="backBtn()">Back</b-btn>
 			</div>
 		</b-overlay>
 		
