@@ -5,8 +5,12 @@ const Start = {
 		<b-jumbotron header="Welcome to this Sudoku Game" lead="by Johnson">
 			<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>
 			<br>
-			<router-link to="/newgame"><b-btn size="lg" variant="dark">Start a new game</b-btn></router-link>
-			<router-link to="/spec"><b-btn size="lg" variant="dark">See technologies used</b-btn></router-link>
+			
+			<b-button-group>
+				<b-btn size="lg" variant="success" to="/newgame">Start a new game</b-btn>
+				<b-btn size="lg" variant="dark" to="/spec">See technologies used</b-btn>
+			</b-button-group>
+		
 		</b-jumbotron>
 
 	</div>
@@ -75,8 +79,10 @@ const NewGame = {
 			<div class="alertMsg">{{diffMsg}}</div>
 		</div>
 		<div>
-			<b-btn size="lg" variant="success" @click="createNewGame()">Create New Game</b-btn>
-			<router-link to="/"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
+			<b-button-group>
+				<b-btn size="lg" variant="success" @click="createNewGame()">Create New Game</b-btn>
+				<b-btn size="lg" variant="danger" to="/">Back</b-btn>
+			</b-button-group>
 		</div>
 	</div>
 	`		
@@ -222,10 +228,12 @@ const InGame = {
 			</div>
 			
 			<div>
-				<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
-				<b-btn variant="primary" size="lg" @click="getNewGameBtn()">New Game</b-btn>
-				<b-btn size="lg" variant="danger" @click="backBtn()">Back</b-btn>
-				<a :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff " download><b-btn variant="dark" size="lg">Download PDF</b-btn></a>
+				<b-button-group>
+					<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
+					<b-btn variant="primary" size="lg" @click="getNewGameBtn()">New Game</b-btn>
+					<b-btn variant="dark" size="lg" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">Download PDF</b-btn>
+					<b-btn size="lg" variant="danger" @click="backBtn()">Back</b-btn>
+				</b-button-group>
 			</div>
 		</b-overlay>
 		
