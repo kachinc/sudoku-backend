@@ -35,11 +35,6 @@ const Spec = {
 			
 			<br>
 			
-			<h3>Source Code</h3>
-			<p><a href="https://github.com/kachinc/sudoku-backend">https://github.com/kachinc/sudoku-backend</a></p>
-			
-			<br>
-			
 			<router-link to="/"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
 			
 
