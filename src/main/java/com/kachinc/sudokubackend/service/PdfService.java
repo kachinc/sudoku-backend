@@ -82,7 +82,7 @@ public class PdfService {
 		document.add(new Paragraph("Sudoku Problem", titleFont));
 		document.add(new Paragraph("generated on sudoku.kachinc.com", descrFont));
 		document.add(new Paragraph(
-				"at " + ZonedDateTime.now().format(DateTimeFormatter.ofPattern("dd/mm/yyyy HH:mm:ss VV O")),
+				"at " + ZonedDateTime.now().format(DateTimeFormatter.ofPattern(AppConstant.DATE_TIME_FORMAT_WITH_TIMEZONE)),
 				descrFont));
 		document.add(new Paragraph("having a difficulty of " + difficulty + " between 0 and 1", descrFont));
 		document.add(new Paragraph("\n\n\n"));
