@@ -8,7 +8,6 @@ const Start = {
 			
 			<b-button-group>
 				<b-btn size="lg" variant="success" to="/newgame">Start a new game</b-btn>
-				<b-btn size="lg" variant="dark" to="/spec">See technologies used</b-btn>
 			</b-button-group>
 		
 		</b-jumbotron>
@@ -17,32 +16,6 @@ const Start = {
 	`
 			
 }
-
-const Spec = {
-		template: `
-		<div>
-			<h1>Technologies Used</h1>
-			
-			<br>
-			
-			<h3>Back-end</h3>
-			<p>Spring Boot, Spring MVC, iText PDF</p>
-			
-			<br>
-			
-			<h3>Front-end</h3>
-			<p>Vue, Vue Router, Axios, BootstrapVue, Google Fonts, Moment.js</p>
-			
-			<br>
-			
-			<router-link to="/"><b-btn size="lg" variant="danger">Back</b-btn></router-link>
-			
-
-		</div>
-		`
-				
-	}
-
 
 const NewGame = {
 	data: function () {
