@@ -235,7 +235,6 @@ const InGame = {
 
 const routes = [
   { path: '/', component: Start },
-  { path: '/spec', component: Spec },
   { path: '/newgame', component: NewGame },
   { name: 'ingame', path: '/ingame/:diff', component: InGame }
 ]
