@@ -89,7 +89,6 @@ public class SudokuGenerator {
 			// Validate the recently set value
 			// If the current cell is valid, we can proceed to consider the cells ahead
 			if (SudokuValidator.isCellValueValid(board, rowPtr, colPtr)) {
-				System.out.println("valid");
 				// if the next cell and the cells after are valid
 				if(generateFull(board, posPtr + 1)) {
 					return true;
@@ -100,7 +99,6 @@ public class SudokuGenerator {
 			} else {
 				// if the current cell is invalid, try other possible values
 				board.setCell(rowPtr, colPtr, null);
-				System.out.println("invalid");
 				continue;
 			}
 		}
