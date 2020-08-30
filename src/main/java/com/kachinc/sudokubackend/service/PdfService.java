@@ -26,6 +26,18 @@ import com.kachinc.sudokubackend.core.SudokuConstant;
 public class PdfService {
 
 	public ByteArrayOutputStream generatePdf(SudokuBoard board, double difficulty) throws Exception {
+		return geneatePdfPdfBox(board, difficulty);
+	}
+	
+	private ByteArrayOutputStream geneatePdfPdfBox(SudokuBoard board, double difficulty) throws Exception {
+		
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		
+		
+		return outputStream;
+	}
+	
+	private ByteArrayOutputStream geneatePdfIText(SudokuBoard board, double difficulty) throws Exception {
 		Document document = new Document();
 		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();

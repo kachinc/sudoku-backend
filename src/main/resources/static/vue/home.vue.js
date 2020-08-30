@@ -3,7 +3,8 @@ const Start = {
 	<div>
 	
 		<b-jumbotron header="Welcome to this Sudoku Game" lead="by Johnson">
-			<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>
+			<!--<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>-->
+			<p>Here you may play sudoku with any difficulty you choose</p>
 			<br>
 			
 			<b-button-group>
@@ -199,7 +200,7 @@ const InGame = {
 				<b-button-group>
 					<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
 					<b-btn variant="primary" size="lg" @click="getNewGameBtn()">New Game</b-btn>
-					<b-btn variant="dark" size="lg" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">Download PDF</b-btn>
+					<!--<b-btn variant="dark" size="lg" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">Download PDF</b-btn>-->
 					<b-btn size="lg" variant="danger" @click="backBtn()">Back</b-btn>
 				</b-button-group>
 			</div>
