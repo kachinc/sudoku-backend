@@ -2,9 +2,9 @@ const Start = {
 	template: `
 	<div>
 	
-		<b-jumbotron header="Welcome to this Sudoku Game" lead="by Johnson">
+		<b-jumbotron header="Welcome to my sudoku game">
 			<!--<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>-->
-			<p>Here you may play sudoku with any difficulty you choose</p>
+			<p>Here you may can sudoku with any difficulty you choose</p>
 			<br>
 			
 			<b-button-group>
@@ -41,7 +41,8 @@ const NewGame = {
 	},
 	template: `
 	<div>
-		<h3>Select difficulty</h3>
+	
+		<b-card title="Select difficulty">
 		<div class="m-2">
 			<b-form-input id="range-2" v-model="diff" type="range" min="0" max="1" step="0.01"></b-form-input>
 			<span>Difficulty (0 to 1): {{ diff }}</span>
@@ -53,6 +54,7 @@ const NewGame = {
 				<b-btn size="lg" variant="danger" to="/">Back</b-btn>
 			</b-button-group>
 		</div>
+		</b-card>
 	</div>
 	`		
 }
@@ -176,11 +178,11 @@ const InGame = {
 	template: `
 	<div>
 		<b-overlay :show="loading" rounded="sm">
-			<p>
-			<h3>Difficulty of this game: {{diff}}</h3>
-			<h3>Elapsed Time: {{elaspedTimeStr}}</h3>
+
+			<h5>Difficulty of this game: {{diff}}</h5>
+			<h5>Elapsed Time: {{elaspedTimeStr}}</h5>
 			
-			</p>
+
 			
 			
 			<div class="board my-2">
