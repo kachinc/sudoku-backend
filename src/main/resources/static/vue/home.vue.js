@@ -4,7 +4,7 @@ const Start = {
 	
 		<b-jumbotron header="Welcome to my sudoku game">
 			<!--<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>-->
-			<p>Here you may play sudoku with any difficulty you choose</p>
+			<p>Here you may play sudoku with any difficulty you choose and download the game as a PDF file.</p>
 			<br>
 			
 			<b-button-group>
