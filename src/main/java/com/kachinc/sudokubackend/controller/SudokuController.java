@@ -91,6 +91,7 @@ public class SudokuController {
 		board.fillByString(str);
 		ByteArrayOutputStream outputStream = pdfService.generatePdf(board, difficulty);
 		outputStream.writeTo(response.getOutputStream());
+		outputStream.close();
 		response.setContentType("application/pdf");		
 	}
 
