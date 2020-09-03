@@ -89,9 +89,7 @@ public class SudokuController {
 	void downloadPdf(@RequestParam String str, @RequestParam double difficulty, HttpServletResponse response) throws Exception {
 		SudokuBoard board = new SudokuBoard();
 		board.fillByString(str);
-		ByteArrayOutputStream outputStream = pdfService.generatePdf(board, difficulty);
-		outputStream.writeTo(response.getOutputStream());
-		outputStream.close();
+		pdfService.generatePdf(response.getOutputStream(), board, difficulty);
 		response.setContentType("application/pdf");		
 	}
 

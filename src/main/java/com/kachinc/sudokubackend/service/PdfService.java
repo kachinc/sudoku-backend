@@ -2,6 +2,7 @@ package com.kachinc.sudokubackend.service;
 
 import java.awt.Color;
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -29,13 +30,11 @@ import be.quodlibet.boxable.line.LineStyle;
 @Component
 public class PdfService {
 
-	public ByteArrayOutputStream generatePdf(SudokuBoard board, double difficulty) throws Exception {
-		return geneatePdfPdfBox(board, difficulty);
+	public void generatePdf(OutputStream os, SudokuBoard board, double difficulty) throws Exception {
+		geneatePdfPdfBox(os, board, difficulty);
 	}
 
-	private ByteArrayOutputStream geneatePdfPdfBox(SudokuBoard board, double difficulty) throws Exception {
-
-		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	private void geneatePdfPdfBox(OutputStream os, SudokuBoard board, double difficulty) throws Exception {
 
 		PDDocument document = new PDDocument();
 
@@ -140,11 +139,10 @@ public class PdfService {
 
 		contentStream.close();
 
-		document.save(outputStream);
+		document.save(os);
 
 		document.close();
 
-		return outputStream;
 	}
 
 //	private ByteArrayOutputStream geneatePdfIText(SudokuBoard board, double difficulty) throws Exception {
