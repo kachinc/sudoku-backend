@@ -63,7 +63,7 @@ public class PdfService {
 		contentStream.beginText();
 		contentStream.setFont(descrFont, descrSize);
 		contentStream.newLineAtOffset(50, rect.getHeight() - 80);
-		contentStream.showText("generated on sudoku.kachinc.com");
+		contentStream.showText("generated on kachinc.com");
 		contentStream.endText();
 
 		contentStream.beginText();

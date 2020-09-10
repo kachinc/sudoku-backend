@@ -2,12 +2,19 @@ package com.kachinc.sudokubackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class SudokuBackendApplication {
+public class SudokuBackendApplication extends SpringBootServletInitializer {
 
-	public static void main(String[] args) {
+	public static void main(String[] args)   {
 		SpringApplication.run(SudokuBackendApplication.class, args);
 	}
+	
+	@Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(SudokuBackendApplication.class);
+    }
 
 }

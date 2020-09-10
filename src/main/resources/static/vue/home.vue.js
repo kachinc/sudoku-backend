@@ -102,7 +102,7 @@ const InGame = {
 		getNewGame(){
 			let self = this;
 			this.loading = true;
-			axios.get('/api/generateByDiff',{params:{diff:this.diff}}).then(res => {
+			axios.get('api/generateByDiff',{params:{diff:this.diff}}).then(res => {
 				
 				let str = res.data.substr(1);
 				this.boardStrOriginal = str;
@@ -127,7 +127,7 @@ const InGame = {
 			let self = this;
 			self.loading = true;
 			let str = this.getStrFromBoard();
-			axios.get('/api/validate',{params:{str:str}}).then(res => {
+			axios.get('api/validate',{params:{str:str}}).then(res => {
 				if(res.data == true){
 					self.$bvToast.toast('Congrats! The board is valid.', {
 						  toaster: 'b-toaster-top-left',
