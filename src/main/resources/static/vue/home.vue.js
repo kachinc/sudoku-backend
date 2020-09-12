@@ -4,11 +4,12 @@ const Start = {
 	
 		<b-jumbotron header="Welcome to my sudoku game">
 			<!--<p>Here you may play a sudoku game with a difficulty you choose, you may even download the game as a PDF file!</p>-->
-			<p>Here you may play sudoku with any difficulty you choose and download the game as a PDF file.</p>
+			<p>Here you may play sudoku with any difficulty of your choice and download the game as a PDF file.</p>
 			<br>
 			
 			<b-button-group>
 				<b-btn size="lg" variant="success" to="/newgame">Start a new game</b-btn>
+				<b-btn size="lg" variant="info" to="/loadgame">Load saved game</b-btn>
 			</b-button-group>
 		
 		</b-jumbotron>
@@ -59,9 +60,66 @@ const NewGame = {
 	`		
 }
 
+const LoadGame = {
+		data: function () {
+		    return {
+		      saveCode:''
+		    }
+		},
+		computed: {
+			
+		},
+		methods: {
+			load(){
+				let self = this;
+				this.loading = true;
+				axios.get('api/loadGame',{params:{uuidStr:this.saveCode}}).then(res => {
+					console.log(res.data);
+					if(res.data.uuidvalid){
+						router.push({ name: 'ingame', params: {
+								loadMode: true,
+								diff: res.data.difficulty,
+								boardStrOriginal: res.data.boardStrOriginal,
+								boardStrNow: res.data.boardStrNow,
+								elaspedTimeValue: res.data.elaspedTimeValue
+							}
+						});
+					} else {
+						this.$bvToast.toast('Save code is invalid.', {
+							  toaster: 'b-toaster-top-left',
+					          title: 'Oops!',
+					          variant: 'danger'
+					    });
+					}
+				}).catch(err => {
+				    console.log(err);
+				    self.showXhrError();
+				}).then(() => {
+					self.loading = false;
+				});
+			}
+		},
+		template: `
+		<div>
+			<b-card title="Load saved game">
+			<div class="m-2 py-2">
+				<b-form-input v-model="saveCode" placeholder="Enter save code"></b-form-input>
+			</div>
+			<div>
+				<b-button-group>
+					<b-btn size="lg" variant="info" @click="load()">Load</b-btn>
+					<b-btn size="lg" variant="danger" to="/">Back</b-btn>
+				</b-button-group>
+			</div>
+			</b-card>
+		</div>
+		`		
+	}
+
 const InGame = {
 	data: function () {
 		return {
+			loadMode: this.$route.params.loadMode,
 			diff: this.$route.params.diff,
 			boardStrOriginal:'',
 			board: [],
@@ -70,13 +128,44 @@ const InGame = {
 			loading:false,
 			timerIntervalId:{},
 			gameStartTime:{},
-			elaspedTimeStr:''
+			elaspedTimeValue:0,
+			elaspedTimeStr:'',
+			saveCodeOut:''
 		}
 	},
 	mounted (){
-		this.getNewGame();
+		if(this.loadMode){
+			this.loadGameInit();
+		} else {
+			this.getNewGame();
+		}
 	},
 	methods: {
+		resetTimer(){
+			clearInterval(this.timerIntervalId);
+			this.elaspedTimeStr = '00:00';
+			this.gameStartTime = moment();
+			this.timerIntervalId = setInterval(()=>{
+				let subtractedTime = moment().subtract(this.gameStartTime);
+				this.elaspedTimeValue = subtractedTime.valueOf();
+				this.elaspedTimeStr = subtractedTime.format('mm:ss');
+			}, 1000);
+		},
+		loadGameInit(){
+			this.boardStrOriginal = this.$route.params.boardStrOriginal;
+			
+			// set board with original str for disable flags
+			this.setBoardByStr(this.boardStrOriginal);
+			
+			// set board with now str
+			this.board = this.$route.params.boardStrNow.split("");
+			this.board = this.board.map(e => e == '-' ? '': e);
+			
+			this.resetTimer();
+			
+			this.gameStartTime = moment().subtract(moment(this.$route.params.elaspedTimeValue));
+			
+		},
 		showXhrError(){
 			this.$bvToast.toast('Server error occurred.', {
 				  toaster: 'b-toaster-top-left',
@@ -85,14 +174,14 @@ const InGame = {
 		    });
 		},
 		getNewGameBtn(){
-			this.$bvModal.msgBoxConfirm('Do you want to play a new game? Your progress will be lost.').then(value=>{
+			this.$bvModal.msgBoxConfirm('Do you want to play a new game? Your progress will be lost if it has not been saved.').then(value=>{
 				if(value === true){
 					this.getNewGame();
 				}
 			});
 		},
 		backBtn(){
-			this.$bvModal.msgBoxConfirm('Do you want to go to the previous page? Your progress will be lost.').then(value=>{
+			this.$bvModal.msgBoxConfirm('Do you want to go to the previous page? Your progress will be lost if it has not been saved.').then(value=>{
 				if(value === true){
 					this.$router.push('/newgame');
 				}
@@ -107,13 +196,7 @@ const InGame = {
 				this.boardStrOriginal = str;
 				self.setBoardByStr(str);
 				
-				// reset timer
-				clearInterval(this.timerIntervalId);
-				this.elaspedTimeStr = '00:00';
-				this.gameStartTime = moment();
-				this.timerIntervalId = setInterval(()=>{
-					this.elaspedTimeStr = moment().subtract(this.gameStartTime).format('mm:ss');
-				}, 1000);
+				this.resetTimer();
 				
 			}).catch(err => {
 			    console.log(err);
@@ -172,6 +255,27 @@ const InGame = {
 			this.board[this.pickCellValueCellIndex] = num;
 			this.$bvModal.hide('pick-cell-modal');
 			this.$forceUpdate();
+		},
+		saveGame(){
+			let self = this;
+			self.loading = true;
+			let boardStrNow = this.getStrFromBoard();
+
+			axios.get('api/saveGame',{params:{
+						boardStrOriginal:this.boardStrOriginal,
+						boardStrNow:boardStrNow,
+						difficulty:this.diff,
+						elaspedTimeValue:this.elaspedTimeValue
+					}
+			}).then(res => {
+				this.saveCodeOut = res.data;
+				this.$bvModal.show('save-code-modal');
+			}).catch(err => {
+			    console.log(err);
+			    self.showXhrError();
+			}).then(() => {
+				self.loading = false;
+			});
 		}
 	},
 	template: `
@@ -199,10 +303,11 @@ const InGame = {
 			
 			<div>
 				<b-button-group>
-					<b-btn variant="success" size="lg" @click="validate()">Validate</b-btn>
-					<b-btn variant="primary" size="lg" @click="getNewGameBtn()">New Game</b-btn>
-					<b-btn variant="dark" size="lg" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">Download PDF</b-btn>
-					<b-btn size="lg" variant="danger" @click="backBtn()">Back</b-btn>
+					<b-btn variant="success" @click="validate()">Check</b-btn>
+					<b-btn variant="primary" @click="getNewGameBtn()">New Game</b-btn>
+					<b-btn variant="info" @click="saveGame()">Save</b-btn>
+					<b-btn variant="dark" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
+					<b-btn variant="danger" @click="backBtn()">Back</b-btn>
 				</b-button-group>
 			</div>
 		</b-overlay>
@@ -230,6 +335,11 @@ const InGame = {
 		    </b-button-group>
 		</b-modal>
 		
+		<b-modal id="save-code-modal" title="Save Game" ok-only hide-header-close>
+			The game has been saved. You may load it using this code:
+			 <b-form-input v-model="saveCodeOut"></b-form-input>
+		</b-modal>
+		
 	</div>
 	`
 				
@@ -238,6 +348,7 @@ const InGame = {
 const routes = [
   { path: '/', component: Start },
   { path: '/newgame', component: NewGame },
+  { path: '/loadgame', component: LoadGame },
   { name: 'ingame', path: '/ingame/:diff', component: InGame }
 ]
 

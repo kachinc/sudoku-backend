@@ -1,18 +1,24 @@
 package com.kachinc.sudokubackend.controller;
 
-import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Properties;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.thymeleaf.util.StringUtils;
 
+import com.kachinc.sudokubackend.bean.LoadGameResponseBean;
 import com.kachinc.sudokubackend.core.SudokuBoard;
 import com.kachinc.sudokubackend.core.SudokuConstant;
 import com.kachinc.sudokubackend.core.SudokuGenerator;
@@ -27,6 +33,9 @@ import com.kachinc.sudokubackend.service.PdfService;
 public class SudokuController {
 
 	Logger log = LoggerFactory.getLogger(SudokuController.class);
+	
+	@Autowired
+	private Environment environment;
 
 	@Autowired
 	private SudokuGenerator generator;
@@ -91,6 +100,41 @@ public class SudokuController {
 		board.fillByString(str);
 		pdfService.generatePdf(response.getOutputStream(), board, difficulty);
 		response.setContentType("application/pdf");		
+	}
+	
+	@GetMapping("saveGame")
+	String saveGame(@RequestParam String boardStrOriginal, @RequestParam String boardStrNow, @RequestParam double difficulty, @RequestParam long elaspedTimeValue) throws Exception {
+		String uuid = UUID.randomUUID().toString();
+		Properties properties = new Properties();
+		properties.put("diff", String.valueOf(difficulty));
+		properties.put("boardStrOriginal", boardStrOriginal);
+		properties.put("boardStrNow", boardStrNow);
+		properties.put("elaspedTimeValue", String.valueOf(elaspedTimeValue));
+		try(FileOutputStream fos = new FileOutputStream(environment.getProperty("save.dir.path") + uuid)){
+			properties.store(fos, null);
+		}
+		return uuid;
+	}
+	
+	@GetMapping("loadGame")
+	LoadGameResponseBean loadGame(@RequestParam String uuidStr) throws Exception {
+		LoadGameResponseBean res = new LoadGameResponseBean();
+		uuidStr = StringUtils.trim(uuidStr);
+		try {
+			UUID.fromString(uuidStr);
+			Properties properties = new Properties();
+			try (FileInputStream fis = new FileInputStream(environment.getProperty("save.dir.path") + uuidStr)) {
+				properties.load(fis);
+				res.setUUIDValid(true);
+				res.setDifficulty(Double.parseDouble(properties.getProperty("diff")));
+				res.setBoardStrOriginal(properties.getProperty("boardStrOriginal"));
+				res.setBoardStrNow(properties.getProperty("boardStrNow"));
+				res.setElaspedTimeValue(Long.parseLong(properties.getProperty("elaspedTimeValue")));
+			}
+		} catch (IllegalArgumentException exception) {
+			res.setUUIDValid(false);
+		}
+		return res;
 	}
 
 }
