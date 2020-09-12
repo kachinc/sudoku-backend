@@ -75,7 +75,6 @@ const InGame = {
 	},
 	mounted (){
 		this.getNewGame();
-		console.log('mounted')		
 	},
 	methods: {
 		showXhrError(){
