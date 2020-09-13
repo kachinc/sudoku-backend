@@ -63,7 +63,8 @@ const NewGame = {
 const LoadGame = {
 		data: function () {
 		    return {
-		      saveCode:''
+		      saveCode:'',
+		      loading:false
 		    }
 		},
 		computed: {
@@ -101,17 +102,19 @@ const LoadGame = {
 		},
 		template: `
 		<div>
-			<b-card title="Load saved game">
-			<div class="m-2 py-2">
-				<b-form-input v-model="saveCode" placeholder="Enter save code"></b-form-input>
-			</div>
-			<div>
-				<b-button-group>
-					<b-btn size="lg" variant="info" @click="load()">Load</b-btn>
-					<b-btn size="lg" variant="danger" to="/">Back</b-btn>
-				</b-button-group>
-			</div>
-			</b-card>
+			<b-overlay :show="loading" rounded="sm">
+				<b-card title="Load saved game">
+				<div class="m-2 py-2">
+					<b-form-input v-model="saveCode" placeholder="Enter save code"></b-form-input>
+				</div>
+				<div>
+					<b-button-group>
+						<b-btn size="lg" variant="info" @click="load()">Load</b-btn>
+						<b-btn size="lg" variant="danger" to="/">Back</b-btn>
+					</b-button-group>
+				</div>
+				</b-card>
+			</b-overlay>
 		</div>
 		`		
 	}
@@ -130,7 +133,8 @@ const InGame = {
 			gameStartTime:{},
 			elaspedTimeValue:0,
 			elaspedTimeStr:'',
-			saveCodeOut:''
+			saveCodeOut:'',
+			timerPaused:false
 		}
 	},
 	mounted (){
@@ -141,14 +145,22 @@ const InGame = {
 		}
 	},
 	methods: {
-		resetTimer(){
+		resetTimer(startTimeValue){
 			clearInterval(this.timerIntervalId);
-			this.elaspedTimeStr = '00:00';
-			this.gameStartTime = moment();
+			this.elaspedTimeStr = '--:--';
+			if(startTimeValue){
+				this.gameStartTime = moment().subtract(moment(startTimeValue));
+			} else {
+				this.gameStartTime = moment();
+			}
 			this.timerIntervalId = setInterval(()=>{
-				let subtractedTime = moment().subtract(this.gameStartTime);
-				this.elaspedTimeValue = subtractedTime.valueOf();
-				this.elaspedTimeStr = subtractedTime.format('mm:ss');
+				if(!this.timerPaused){
+					let subtractedTime = moment().subtract(this.gameStartTime);
+					this.elaspedTimeValue = subtractedTime.valueOf();
+					this.elaspedTimeStr = subtractedTime.format('mm:ss');
+				} else {
+					this.gameStartTime = this.gameStartTime.add(1, 'seconds');
+				}
 			}, 1000);
 		},
 		loadGameInit(){
@@ -161,9 +173,7 @@ const InGame = {
 			this.board = this.$route.params.boardStrNow.split("");
 			this.board = this.board.map(e => e == '-' ? '': e);
 			
-			this.resetTimer();
-			
-			this.gameStartTime = moment().subtract(moment(this.$route.params.elaspedTimeValue));
+			this.resetTimer(this.$route.params.elaspedTimeValue);
 			
 		},
 		showXhrError(){
@@ -190,6 +200,7 @@ const InGame = {
 		getNewGame(){
 			let self = this;
 			this.loading = true;
+			this.timerPaused = false;
 			axios.get('api/generateByDiff',{params:{diff:this.diff}}).then(res => {
 				
 				let str = res.data.substr(1);
@@ -216,7 +227,8 @@ const InGame = {
 				          title: 'Validation Result',
 				          variant: 'success'
 				    });
-					clearInterval(this.timerIntervalId); // stop timer
+					//clearInterval(this.timerIntervalId); // stop timer
+					this.timerPaused = true;
 				} else {
 					self.$bvToast.toast('Oops! The board is invalid.', {
 						  toaster: 'b-toaster-top-left',
@@ -258,6 +270,7 @@ const InGame = {
 		},
 		saveGame(){
 			let self = this;
+			self.timerPaused = true;
 			self.loading = true;
 			let boardStrNow = this.getStrFromBoard();
 
@@ -278,12 +291,19 @@ const InGame = {
 			});
 		}
 	},
+	watch:{
+		timerPaused(val){
+			if(val){
+				
+			}
+		}
+	},
 	template: `
 	<div>
 		<b-overlay :show="loading" rounded="sm">
 
 			<h5>Difficulty of this game: {{diff}}</h5>
-			<h5>Elapsed Time: {{elaspedTimeStr}}</h5>
+			<h5>Elapsed Time <b-btn squared variant="outline-dark" size="sm" :pressed.sync="timerPaused"><b-icon icon="pause"></b-icon></b-btn> : <span v-bind:class="{blink_me:timerPaused}">{{elaspedTimeStr}}</span> </h5>
 			
 
 			
