@@ -104,6 +104,11 @@ public class SudokuController {
 	
 	@GetMapping("saveGame")
 	String saveGame(@RequestParam String boardStrOriginal, @RequestParam String boardStrNow, @RequestParam double difficulty, @RequestParam long elaspedTimeValue) throws Exception {
+		
+		if(boardStrOriginal.length() != SudokuConstant.NUMBER_OF_CELLS || boardStrNow.length() != SudokuConstant.NUMBER_OF_CELLS) {
+			throw new RuntimeException("saveGame boardStrOriginal or boardStrNow invalid length");
+		}
+		
 		String uuid = UUID.randomUUID().toString();
 		Properties properties = new Properties();
 		properties.put("diff", String.valueOf(difficulty));
