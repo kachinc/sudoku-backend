@@ -326,7 +326,7 @@ const InGame = {
 					<b-btn variant="success" @click="validate()">Check</b-btn>
 					<b-btn variant="primary" @click="getNewGameBtn()">New Game</b-btn>
 					<b-btn variant="info" @click="saveGame()">Save</b-btn>
-					<b-btn variant="dark" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
+					<b-btn variant="dark" target="_blank" rel="noopener noreferrer" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
 					<b-btn variant="danger" @click="backBtn()">Back</b-btn>
 				</b-button-group>
 			</div>
@@ -379,3 +379,7 @@ const router = new VueRouter({
 const app = new Vue({
   router
 }).$mount('#app')
+
+window.onbeforeunload = function() {
+  return "";
+}
