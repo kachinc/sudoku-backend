@@ -30,6 +30,8 @@ const NewGame = {
 			let msg =  clues + ' clues.';
 			if(clues < 17) {
 				msg += ' Less than 17 clues.'
+			} else if (clues == 81){
+				msg += ' (This will create a finished game)'
 			}
 			return msg;
 		}
@@ -183,14 +185,14 @@ const InGame = {
 		    });
 		},
 		getNewGameBtn(){
-			this.$bvModal.msgBoxConfirm('Do you want to play a new game? Your progress will be lost if it has not been saved.').then(value=>{
+			this.$bvModal.msgBoxConfirm('Do you want to quit the current game?').then(value=>{
 				if(value === true){
 					this.getNewGame();
 				}
 			});
 		},
 		backBtn(){
-			this.$bvModal.msgBoxConfirm('Do you want to go to the previous page? Your progress will be lost if it has not been saved.').then(value=>{
+			this.$bvModal.msgBoxConfirm('Do you want to quit the current game?').then(value=>{
 				if(value === true){
 					this.$router.push('/newgame');
 				}
