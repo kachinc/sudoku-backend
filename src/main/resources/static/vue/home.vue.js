@@ -7,8 +7,8 @@ const Start = {
 			<br>
 			
 			<b-button-group>
-				<b-btn variant="success" to="/newgame">Start a new game</b-btn>
-				<b-btn variant="info" to="/loadgame">Load saved game</b-btn>
+				<b-btn variant="success" class="btn-sm" to="/newgame">Start a new game</b-btn>
+				<b-btn variant="info" class="btn-sm" to="/loadgame">Load saved game</b-btn>
 			</b-button-group>
 		
 		</b-jumbotron>
@@ -326,11 +326,11 @@ const InGame = {
 			
 			<div>
 				<b-button-group>
-					<b-btn variant="success" @click="validate()">Check</b-btn>
-					<b-btn variant="secondary" @click="getNewGameBtn()">New Game</b-btn>
-					<b-btn variant="secondary" @click="saveGame()">Save</b-btn>
-					<b-btn variant="secondary" target="_blank" rel="noopener noreferrer" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
-					<b-btn variant="danger" @click="backBtn()">Back</b-btn>
+					<b-btn variant="success"  class="btn-sm" @click="validate()">Check</b-btn>
+					<b-btn variant="secondary" class="btn-sm" @click="getNewGameBtn()">New Game</b-btn>
+					<b-btn variant="secondary" class="btn-sm" @click="saveGame()">Save</b-btn>
+					<b-btn variant="secondary" class="btn-sm" target="_blank" rel="noopener noreferrer" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
+					<b-btn variant="danger" class="btn-sm" @click="backBtn()">Back</b-btn>
 				</b-button-group>
 			</div>
 		</b-overlay>
