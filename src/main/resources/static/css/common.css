@@ -1,10 +1,10 @@
 body{
-	font-family:'Raleway', sans-serif;
-	font-size: 1rem;
+	font-family:'Nanum Myeongjo', serif;
+	font-size: 1.1rem;
 }
 
 .jumbotron h1 {
-	font-size: 3.5rem;
+	font-size: 2rem;
 }
 
 .board {
@@ -30,6 +30,11 @@ body{
 	width: calc(100%/ 9);
 }
 
+#numpadmsg {
+	font-style: italic;
+	text-align: center;
+}
+
 .alertMsg {
 	font-style: italic;
 	color: IndianRed
@@ -38,7 +43,7 @@ body{
 .boardbtn {
 	width: 70%;
 	height: 70%;
-	
+	font-size: 1.5rem;
 }
 
 .boardnumpadkey {

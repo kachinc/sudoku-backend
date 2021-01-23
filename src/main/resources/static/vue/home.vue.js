@@ -7,8 +7,8 @@ const Start = {
 			<br>
 			
 			<b-button-group>
-				<b-btn size="lg" variant="success" to="/newgame">Start a new game</b-btn>
-				<b-btn size="lg" variant="info" to="/loadgame">Load saved game</b-btn>
+				<b-btn variant="success" to="/newgame">Start a new game</b-btn>
+				<b-btn variant="info" to="/loadgame">Load saved game</b-btn>
 			</b-button-group>
 		
 		</b-jumbotron>
@@ -31,7 +31,7 @@ const NewGame = {
 			if(clues < 17) {
 				msg += ' Less than 17 clues.'
 			} else if (clues == 81){
-				msg += ' (This will create a finished game)'
+				msg += ' This will create a finished game.'
 			}
 			return msg;
 		}
@@ -44,16 +44,18 @@ const NewGame = {
 	template: `
 	<div>
 	
-		<b-card title="Select difficulty">
+		<b-card title="Pick a difficulty">
+		<br>
 		<div class="m-2">
 			<b-form-input id="range-2" v-model="diff" type="range" min="0" max="1" step="0.01"></b-form-input>
 			<span>Difficulty (0 to 1): {{ diff }}</span>
 			<div class="alertMsg">{{diffMsg}}</div>
 		</div>
 		<div>
+		<br>
 			<b-button-group>
-				<b-btn size="lg" variant="success" @click="createNewGame()">Create New Game</b-btn>
-				<b-btn size="lg" variant="danger" to="/">Back</b-btn>
+				<b-btn variant="success" @click="createNewGame()">Play</b-btn>
+				<b-btn variant="danger" to="/">Back</b-btn>
 			</b-button-group>
 		</div>
 		</b-card>
@@ -110,8 +112,8 @@ const LoadGame = {
 				</div>
 				<div>
 					<b-button-group>
-						<b-btn size="lg" variant="info" @click="load()">Load</b-btn>
-						<b-btn size="lg" variant="danger" to="/">Back</b-btn>
+						<b-btn variant="info" @click="load()">Load</b-btn>
+						<b-btn variant="danger" to="/">Back</b-btn>
 					</b-button-group>
 				</div>
 				</b-card>
@@ -315,7 +317,7 @@ const InGame = {
 					<tr v-for="(n,i) in 9">
 						<td  v-for="(m,j) in 9" style="text-align:center">
 							<span v-if="cellDisabled(i,j)">{{board[j + 9*i]}}</span>
-							<b-btn @click="pickCellValue(i,j)" variant="secondary" class="boardbtn" v-if="!cellDisabled(i,j)">{{board[j + 9*i]}}</b-btn>
+							<b-btn @click="pickCellValue(i,j)"  class="boardbtn btn-outline-secondary btn-sm" v-if="!cellDisabled(i,j)">{{board[j + 9*i]}}</b-btn>
 						</td>
 					</tr>
 				</table>
@@ -325,33 +327,34 @@ const InGame = {
 			<div>
 				<b-button-group>
 					<b-btn variant="success" @click="validate()">Check</b-btn>
-					<b-btn variant="primary" @click="getNewGameBtn()">New Game</b-btn>
-					<b-btn variant="info" @click="saveGame()">Save</b-btn>
-					<b-btn variant="dark" target="_blank" rel="noopener noreferrer" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
+					<b-btn variant="secondary" @click="getNewGameBtn()">New Game</b-btn>
+					<b-btn variant="secondary" @click="saveGame()">Save</b-btn>
+					<b-btn variant="secondary" target="_blank" rel="noopener noreferrer" :href="'api/sudokuPdf?' + 'str=' + boardStrOriginal + '&' + 'difficulty=' + diff ">PDF</b-btn>
 					<b-btn variant="danger" @click="backBtn()">Back</b-btn>
 				</b-button-group>
 			</div>
 		</b-overlay>
 		
 		<b-modal id="pick-cell-modal" hide-footer hide-header size="sm">
-			<b-button-group vertical >
+			<p id="numpadmsg">Touch outside to close</p>
+			<b-button-group vertical>
 			    <b-button-group>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('1')">1</b-btn>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('2')">2</b-btn>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('3')">3</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('1')">1</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('2')">2</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('3')">3</b-btn>
 			    </b-button-group>
 			    <b-button-group>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('4')">4</b-btn>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('5')">5</b-btn>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('6')">6</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('4')">4</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('5')">5</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('6')">6</b-btn>
 			    </b-button-group>
 			    <b-button-group>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('7')">7</b-btn>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('8')">8</b-btn>
-			        <b-btn squared class="boardnumpadkey" variant="outline-dark" @click="numPadPressed('9')">9</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('7')">7</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('8')">8</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-dark" @click="numPadPressed('9')">9</b-btn>
 			    </b-button-group>
 			    <b-button-group>
-			        <b-btn squared class="boardnumpadkey" variant="outline-danger" @click="numPadPressed('')">Clear</b-btn>
+			        <b-btn squared class="boardnumpadkey m-2" variant="outline-danger" @click="numPadPressed('')">Clear</b-btn>
 			    </b-button-group>
 		    </b-button-group>
 		</b-modal>
