@@ -1,7 +1,6 @@
 package com.kachinc.sudokubackend.service;
 
 import java.awt.Color;
-import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +13,8 @@ import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.kachinc.sudokubackend.AppConstant;
@@ -29,6 +30,9 @@ import be.quodlibet.boxable.line.LineStyle;
 
 @Component
 public class PdfService {
+	
+	@Autowired
+	private Environment env;
 
 	public void generatePdf(OutputStream os, SudokuBoard board, double difficulty) throws Exception {
 		geneatePdfPdfBox(os, board, difficulty);
@@ -63,7 +67,7 @@ public class PdfService {
 		contentStream.beginText();
 		contentStream.setFont(descrFont, descrSize);
 		contentStream.newLineAtOffset(50, rect.getHeight() - 80);
-		contentStream.showText("generated on kachinc.com");
+		contentStream.showText("generated on " + env.getProperty("site.name"));
 		contentStream.endText();
 
 		contentStream.beginText();

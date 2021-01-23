@@ -54,8 +54,8 @@ const NewGame = {
 		<div>
 		<br>
 			<b-button-group>
-				<b-btn variant="success" @click="createNewGame()">Play</b-btn>
-				<b-btn variant="danger" to="/">Back</b-btn>
+				<b-btn variant="success" class="btn-sm" @click="createNewGame()">Play</b-btn>
+				<b-btn variant="danger" class="btn-sm" to="/">Back</b-btn>
 			</b-button-group>
 		</div>
 		</b-card>
@@ -112,8 +112,8 @@ const LoadGame = {
 				</div>
 				<div>
 					<b-button-group>
-						<b-btn variant="info" @click="load()">Load</b-btn>
-						<b-btn variant="danger" to="/">Back</b-btn>
+						<b-btn variant="info" class="btn-sm" @click="load()">Load</b-btn>
+						<b-btn variant="danger" class="btn-sm" to="/">Back</b-btn>
 					</b-button-group>
 				</div>
 				</b-card>
