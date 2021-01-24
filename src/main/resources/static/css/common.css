@@ -43,11 +43,11 @@ body{
 .boardbtn {
 	width: 70%;
 	height: 70%;
-	font-size: 1.5rem;
+	font-size: 0.8rem;
 }
 
 .boardnumpadkey {
-	font-size: 4rem;
+	font-size: 3rem;
 	font-family: 'Anonymous Pro'
 }
 
