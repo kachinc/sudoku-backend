@@ -41,9 +41,9 @@ body{
 }
 
 .boardbtn {
-	width: 70%;
-	height: 70%;
-	font-size: 0.8rem;
+	color: lightblue;
+	font-weight:bold;
+	cursor: pointer;
 }
 
 .boardnumpadkey {

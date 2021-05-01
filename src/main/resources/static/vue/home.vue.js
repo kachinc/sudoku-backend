@@ -317,7 +317,10 @@ const InGame = {
 					<tr v-for="(n,i) in 9">
 						<td  v-for="(m,j) in 9" style="text-align:center">
 							<span v-if="cellDisabled(i,j)">{{board[j + 9*i]}}</span>
-							<b-btn @click="pickCellValue(i,j)"  class="boardbtn btn-outline-secondary btn-sm" v-if="!cellDisabled(i,j)">{{board[j + 9*i]}}</b-btn>
+							<span @click="pickCellValue(i,j)" class="boardbtn" v-if="!cellDisabled(i,j)">
+								<span v-if="board[j + 9*i] == ''">▧</span>
+								<span v-else>{{board[j + 9*i]}}</span>
+							</span>
 						</td>
 					</tr>
 				</table>
